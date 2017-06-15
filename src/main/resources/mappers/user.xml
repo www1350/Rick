@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.absurd.rick.mapper.UserMapper">
+    <select id="get" parameterType="String" resultType="User">
+        SELECT * FROM `user` WHERE id = #{id}
+    </select>
+
+    <select id="getByUserName" parameterType="String" resultType="User">
+        SELECT * FROM `user` WHERE username = #{username}
+    </select>
+
+    <insert id="save" parameterType="User">
+        insert into `user` (
+        id,
+        username,
+        password,
+        email,
+        roles,
+        date_create)
+        values (
+        #{id},
+        #{username},
+        #{password},
+        #{email},
+        #{roles},
+        now())
+    </insert>
+</mapper>
