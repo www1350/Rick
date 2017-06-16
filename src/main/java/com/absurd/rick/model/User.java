@@ -3,6 +3,8 @@ package com.absurd.rick.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
+
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import java.util.List;
  * Created by wangwenwei on 17/6/11.
  */
 @Data
+@ToString
 @ApiModel("用户")
 public class User {
     private String id;
@@ -22,7 +25,7 @@ public class User {
 
     private Date lastPasswordResetDate;
 
-    private Date dateCreate;
+    private Date date_create;
 
     private String roles;
 }

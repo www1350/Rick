@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Absurd.
  */
-public class CarControllerTest extends BaseTest{
+public class CarControllerTest extends SpringMvcTest{
     @Test
     public void test() {
         String carId = "c5aY1btjdx";

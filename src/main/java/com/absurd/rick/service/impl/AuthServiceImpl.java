@@ -57,7 +57,6 @@ public class AuthServiceImpl implements AuthService {
         User user = new User();
         BeanUtils.copyProperties(userToAdd,user);
         user.setPassword(encoder.encode(rawPassword));
-        user.setLastPasswordResetDate(new Date());
         user.setId(UUIDUtil.getID());
         userMapper.save(user);
         return user;
