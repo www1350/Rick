@@ -1,6 +1,6 @@
-package com.absurd.rick.resolver;
+package com.absurd.rick.cache.resolver;
 
-import com.absurd.rick.base.CacheService;
+import com.absurd.rick.cache.CacheService;
 import com.absurd.rick.annotation.Cache;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,6 +10,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
@@ -24,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class CacheResolver {
 
-    @Autowired
+    @Resource(name = "redisCache")
     private CacheService cacheService;
 
     @Around("@annotation(com.absurd.rick.annotation.Cache)")
