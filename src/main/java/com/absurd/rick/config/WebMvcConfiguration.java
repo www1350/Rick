@@ -29,7 +29,7 @@ public class WebMvcConfiguration  extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthInterceptor())
-                .addPathPatterns("/**");
+                .addPathPatterns("/**").excludePathPatterns("/**/auth/**","/**/api-docs/**","/**/swagger-resources","/**/car/**");
     }
 
     @Bean
