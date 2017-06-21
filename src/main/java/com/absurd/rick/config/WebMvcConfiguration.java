@@ -1,5 +1,6 @@
 package com.absurd.rick.config;
 
+import com.absurd.rick.interceptor.AuthInterceptor;
 import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.servlet.Filter;
@@ -23,6 +25,12 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 public class WebMvcConfiguration  extends WebMvcConfigurerAdapter {
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new AuthInterceptor())
+                .addPathPatterns("/**");
+    }
 
     @Bean
     public StringHttpMessageConverter stringHttpMessageConverter(){

@@ -6,6 +6,7 @@ import com.absurd.rick.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by wangwenwei on 17/6/16.
@@ -26,5 +27,16 @@ public class BeanCopyTest {
 //        BeanUtils.copyProperties(param,user,"roles");
         log.info(user+"");
 
+    }
+
+    @Test
+    public void tran2Map(){
+        UserRegParam param = new UserRegParam();
+        param.setUsername("aaa");
+        param.setEmail("ww@ww.com");
+        param.setRoles("addd");
+        param.setDateCreate(new Date());
+        Map map = BeanUtilEx.transBean2Map(param);
+        log.info(""+map);
     }
 }

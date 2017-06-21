@@ -16,6 +16,7 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -26,6 +27,30 @@ import java.util.*;
  */
 @Slf4j
 public class BeanUtilEx {
+
+    public static Map<String,Object> transBean2Map(Object object){
+        if (object == null) return null;
+        Map<String,Object> map = new HashMap();
+        try {
+            BeanInfo beanInfo = Introspector.getBeanInfo(object.getClass());
+            PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+            for(PropertyDescriptor propertyDescriptor:propertyDescriptors){
+                String key = propertyDescriptor.getName();
+                if (!"class".equals(key)){
+                    Method method = propertyDescriptor.getReadMethod();
+                    Object result =  method.invoke(object);
+                    map.put(key,result);
+                }
+            }
+        } catch (IntrospectionException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
 
     public static String[] getNullPropertyNames(Object source) {
         final BeanWrapper src = new BeanWrapperImpl(source);

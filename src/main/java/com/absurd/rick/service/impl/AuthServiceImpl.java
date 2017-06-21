@@ -31,8 +31,6 @@ public class AuthServiceImpl implements AuthService {
     private JwtTokenUtil jwtTokenUtil;
     private UserMapper userMapper;
 
-    @Value("${jwt.tokenHead}")
-    private String tokenHead;
 
     @Autowired
     public AuthServiceImpl(
@@ -75,7 +73,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String refresh(String oldToken) {
-        final String token = oldToken.substring(tokenHead.length());
+        final String token = oldToken;
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
         if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())){

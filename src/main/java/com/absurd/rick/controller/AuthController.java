@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,6 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 public class AuthController {
     @Value("${jwt.header}")
     private String tokenHeader;
+
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
 
     @Autowired
     private AuthService authService;
@@ -38,8 +39,9 @@ public class AuthController {
     }
 
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
-    public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) throws AuthenticationException{
-        String token = request.getHeader(tokenHeader);
+    public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request, @RequestParam(required = false) String token) throws AuthenticationException{
+        if (StringUtils.isEmpty(token))
+            token = request.getHeader(tokenHeader).substring(tokenHead.length());
         String refreshedToken = authService.refresh(token);
         if(refreshedToken == null) {
             return ResponseEntity.badRequest().body(null);
