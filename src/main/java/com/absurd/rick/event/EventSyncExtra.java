@@ -5,4 +5,6 @@ package com.absurd.rick.event;
  */
 public interface EventSyncExtra {
     Object getExtra();
+
+    void setExtra(Object extra);
 }

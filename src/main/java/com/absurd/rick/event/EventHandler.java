@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by wangwenwei on 17/6/23.
@@ -17,14 +16,12 @@ public class EventHandler implements Handler{
     @Subscribe
     @Override
     public void handler(Event event) {
+        initExtra(event);
         List<Object> args = event.getData();
         String operator = event.getOperator();
-        Map<String,Object> map =  event.getExtraData();
-        AuthHolder.set((Map<String, Object>) map.get(AuthEventSyncExtra.class.getName()));
         switch (operator){
             case "auth.login":
                 log.info("{},{}",args.get(0),args.get(1));
-                log.info(AuthHolder.username());
                 break;
             case "car.get":
                 log.info("{}",args.get(0));
