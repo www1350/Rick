@@ -1,6 +1,7 @@
 package com.absurd.rick.util;
 
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 /**
@@ -27,7 +28,7 @@ public class UUIDUtil {
     public static String getID(){
         UUID uuid = UUID.randomUUID();
         return convertToHashStr(uuid.getMostSignificantBits(),5)
-                + convertToHashStr(uuid.getLeastSignificantBits(),5);
+                + convertToHashStr(uuid.getLeastSignificantBits(),5)+ ThreadLocalRandom.current().nextInt(10);
     }
 
     public static String convertToHashStr(long hid, int len) {

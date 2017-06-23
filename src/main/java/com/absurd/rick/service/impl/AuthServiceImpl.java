@@ -1,5 +1,6 @@
 package com.absurd.rick.service.impl;
 
+import com.absurd.rick.annotation.GuavaEvent;
 import com.absurd.rick.mapper.UserMapper;
 import com.absurd.rick.model.User;
 import com.absurd.rick.security.JwtUser;
@@ -60,6 +61,7 @@ public class AuthServiceImpl implements AuthService {
         return user;
     }
 
+    @GuavaEvent(value = "auth.login")
     @Override
     public String login(String username, String password) {
         UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
