@@ -2,6 +2,7 @@ package com.absurd.rick.event;
 
 import com.absurd.rick.annotation.GuavaEvent;
 import com.absurd.rick.util.Global;
+import com.absurd.rick.util.SpringContextUtil;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import org.aspectj.lang.JoinPoint;
@@ -14,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by wangwenwei on 17/6/23.
@@ -75,7 +75,15 @@ public class GuavaEventResolver {
         }
         event.setData(data);
         event.setOperator(guavaEvent.value());
+        Map<String, Object> extraMap = new HashMap<>();
 
+        Collection<Object> eventSyncs = SpringContextUtil.getBeanByType(EventSyncExtra.class);
+        for(Object eventSync : eventSyncs){
+            if (eventSync instanceof EventSyncExtra){
+                extraMap.put(eventSync.getClass().getName(),((EventSyncExtra)eventSync).getExtra());
+            }
+        }
+        event.setExtraData(extraMap);
         if (guavaEvent.async()){
             asyncEventBus.post(event);
         }else{

@@ -1,5 +1,6 @@
 package com.absurd.rick.service.impl;
 
+import com.absurd.rick.annotation.GuavaEvent;
 import com.absurd.rick.mapper.CarMapper;
 import com.absurd.rick.util.BeanUtilEx;
 import com.absurd.rick.annotation.Cache;
@@ -36,6 +37,7 @@ public class CarServiceImpl implements CarService {
     }
 
 
+    @GuavaEvent(value = "car.get")
     @Cache(time = 30,key = "car-info-get")
     @Override
     public Car get(String id) {
