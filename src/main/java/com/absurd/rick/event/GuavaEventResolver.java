@@ -1,7 +1,7 @@
 package com.absurd.rick.event;
 
 import com.absurd.rick.annotation.GuavaEvent;
-import com.absurd.rick.util.Global;
+import com.absurd.rick.annotation.GuavaEventPostEnum;
 import com.absurd.rick.util.SpringContextUtil;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;

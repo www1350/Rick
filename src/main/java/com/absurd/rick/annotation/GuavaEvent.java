@@ -1,7 +1,5 @@
 package com.absurd.rick.annotation;
 
-import com.absurd.rick.event.GuavaEventPostEnum;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

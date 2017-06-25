@@ -1,6 +1,7 @@
-package com.absurd.rick.event;
+package com.absurd.rick.event.impl;
 
 import com.absurd.rick.config.AuthHolder;
+import com.absurd.rick.event.EventSyncExtra;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.Map;
  * Created by wangwenwei on 17/6/23.
  */
 @Component
-public class AuthEventSyncExtra  implements EventSyncExtra{
+public class AuthEventSyncExtra  implements EventSyncExtra {
     @Override
     public Object getExtra() {
         return AuthHolder.getThreadMap();
