@@ -45,4 +45,9 @@ public class CarController {
         carService.save(newCar);
         return newCar;
     }
+
+    @PutMapping("/{id}/price/{incPrice}")
+    public void increPrice(@PathVariable("id") String id,@PathVariable Double incPrice){
+        carService.priceUpdate(id,incPrice);
+    }
 }

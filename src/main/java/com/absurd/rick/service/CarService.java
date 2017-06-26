@@ -11,5 +11,7 @@ public interface CarService {
 
     Car update(String id, Car newCar);
 
+    boolean priceUpdate(String id,Double increPrice);
+
     Car get(String id);
 }
