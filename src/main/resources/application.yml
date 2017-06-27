@@ -34,6 +34,10 @@ spring:
       min-idle: 0
       # 从连接池中获取连接最大等待时间（默认为-1，单位为毫秒，负数表示无限）
       max-wait: -1
+zookeeper:
+  address: localhost:2181
+  session-timeout: 60*1000
+  connection-timeout: 15*1000
 # mybatis配置
 mybatis:
   # 配置映射类所在包名

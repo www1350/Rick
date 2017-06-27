@@ -47,7 +47,7 @@ public class CarController {
     }
 
     @PutMapping("/{id}/price/{incPrice}")
-    public void increPrice(@PathVariable("id") String id,@PathVariable Double incPrice){
-        carService.priceUpdate(id,incPrice);
+    public boolean increPrice(@PathVariable("id") String id,@PathVariable Double incPrice){
+       return carService.priceUpdate(id,incPrice);
     }
 }
