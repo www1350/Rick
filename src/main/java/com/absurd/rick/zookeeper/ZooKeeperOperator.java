@@ -40,8 +40,16 @@ public class ZooKeeperOperator extends AbstractZookeeper {
         createPersistent(path, false);
     }
 
+    public String createPersistent(String path, Object data, List<ACL> acl) throws KeeperException, InterruptedException {
+        return create(path, zkSerializer.serialize(data), acl, CreateMode.PERSISTENT);
+    }
+
     public String createPersistent(String path, byte[] data, List<ACL> acl) throws KeeperException, InterruptedException {
         return create(path, data, acl, CreateMode.PERSISTENT);
+    }
+
+    public String createPersistent(String path, Object data) throws RuntimeException, KeeperException, InterruptedException {
+        return create(path, zkSerializer.serialize(data), CreateMode.PERSISTENT);
     }
 
     public String createPersistent(String path, byte[] data) throws RuntimeException, KeeperException, InterruptedException {
@@ -50,6 +58,10 @@ public class ZooKeeperOperator extends AbstractZookeeper {
 
     public void createPersistent(String path, boolean createParents) throws RuntimeException, KeeperException, InterruptedException {
         createPersistent(path, createParents, ZooDefs.Ids.OPEN_ACL_UNSAFE);
+    }
+
+    public String createPersistentSequential(String path, Object data) throws RuntimeException, KeeperException, InterruptedException {
+        return create(path, zkSerializer.serialize(data), CreateMode.PERSISTENT_SEQUENTIAL);
     }
 
     public String createPersistentSequential(String path, byte[] data) throws RuntimeException, KeeperException, InterruptedException {
@@ -89,6 +101,10 @@ public class ZooKeeperOperator extends AbstractZookeeper {
 
     public String create(final String path, byte[] data, final CreateMode mode) throws RuntimeException, KeeperException, InterruptedException {
         return create(path, data, ZooDefs.Ids.OPEN_ACL_UNSAFE, mode);
+    }
+
+    public byte[] getData(final String path, boolean watch,Stat stat) throws KeeperException, InterruptedException {
+        return this.zk.getData(path,watch,stat);
     }
 
     public Stat exists(final String path, final boolean watch) throws KeeperException, InterruptedException {

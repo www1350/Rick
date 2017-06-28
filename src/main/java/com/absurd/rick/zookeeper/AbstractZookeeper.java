@@ -2,7 +2,6 @@ package com.absurd.rick.zookeeper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.*;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
@@ -23,6 +22,13 @@ public class AbstractZookeeper implements Watcher{
     private CountDownLatch latch;//计数器
 
     private CountDownLatch connectedSignal=new CountDownLatch(1);
+
+    protected ZkSerializer zkSerializer;
+
+
+    public AbstractZookeeper() {
+        zkSerializer = new JsonZkSerializer();
+    }
 
     public void connect(){
         try {
@@ -87,5 +93,13 @@ public class AbstractZookeeper implements Watcher{
 
     public void setLatch(CountDownLatch latch) {
         this.latch = latch;
+    }
+
+    public ZkSerializer getZkSerializer() {
+        return zkSerializer;
+    }
+
+    public void setZkSerializer(ZkSerializer zkSerializer) {
+        this.zkSerializer = zkSerializer;
     }
 }

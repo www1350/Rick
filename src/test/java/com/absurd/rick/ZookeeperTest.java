@@ -25,6 +25,6 @@ public class ZookeeperTest {
         Stat stat = zk.exists("/lock",true);
         log.info(""+stat.toString());
         zk.close();
-
     }
+
 }
