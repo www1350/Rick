@@ -2,6 +2,7 @@ package com.absurd.rick.service.impl;
 
 import com.absurd.rick.annotation.GuavaEvent;
 import com.absurd.rick.lock.RedisLock;
+import com.absurd.rick.lock.RedisLockForDeathLock;
 import com.absurd.rick.lock.ZookeeperLock;
 import com.absurd.rick.mapper.CarMapper;
 import com.absurd.rick.util.BeanUtilEx;
@@ -10,6 +11,7 @@ import com.absurd.rick.model.Car;
 import com.absurd.rick.service.CarService;
 import com.absurd.rick.util.UUIDUtil;
 import com.absurd.rick.zookeeper.ZooKeeperOperator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import org.springframework.util.StringUtils;
 /**
  * @author Absurd.
  */
+@Slf4j
 @Service
 public class CarServiceImpl implements CarService {
     @Autowired
@@ -49,8 +52,11 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public boolean priceUpdate(String id, Double increPrice) {
+        log.info("{} up {}",id,increPrice);
 //        RedisLock lock = new RedisLock(redisTemplate,"priceUpdate");
         ZookeeperLock lock = new ZookeeperLock(zooKeeperOperator,"priceUpdate");
+
+//      RedisLockForDeathLock lock = new RedisLockForDeathLock(redisTemplate,"priceUpdate");
         lock.lock();
         try {
             Car car = carMapper.get(id);

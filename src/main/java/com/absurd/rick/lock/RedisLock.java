@@ -32,7 +32,7 @@ public class RedisLock implements Lock{
     /***
      * 持有锁的最长时间
      */
-    private final int expireTime = 300;
+    private final long expireTime = 300L;
 
     /***
      * 超时时间
@@ -67,7 +67,7 @@ public class RedisLock implements Lock{
                     return connection.setNX(data,data);
                 }
             });
-            if (!flag.booleanValue()){
+            if (flag == null || !flag.booleanValue()){
                 try {
                     Thread.currentThread().sleep(this.sleepTime);
                 }catch (InterruptedException e){
@@ -95,7 +95,7 @@ public class RedisLock implements Lock{
             throw new NullPointerException("lockName is null");
         if (!interruped)
             throw  new RuntimeException("线程被中断");
-        boolean flag = (boolean) redisTemplate.execute(new RedisCallback() {
+        Boolean flag = (Boolean) redisTemplate.execute(new RedisCallback() {
             @Override
             public Object doInRedis(RedisConnection connection) throws DataAccessException {
                 StringRedisSerializer serializer = new StringRedisSerializer();
@@ -103,7 +103,7 @@ public class RedisLock implements Lock{
                 return connection.setNX(data,data);
             }
         });
-        if (!flag)
+        if (flag == null || !flag)
             return false;
         else {
             // 设置锁过期时间
@@ -126,7 +126,7 @@ public class RedisLock implements Lock{
         while (true) {
             if (!interruped)
                 throw new InterruptedException("线程被中断");
-            boolean flag = (boolean) redisTemplate.execute(new RedisCallback() {
+            Boolean flag = (Boolean) redisTemplate.execute(new RedisCallback() {
                 @Override
                 public Object doInRedis(RedisConnection connection) throws DataAccessException {
                     StringRedisSerializer serializer = new StringRedisSerializer();
@@ -135,7 +135,7 @@ public class RedisLock implements Lock{
                 }
             });
             // 加锁失败
-            if (!flag) {
+            if (flag == null || !flag) {
                 // 获取锁超时
                 if (System.currentTimeMillis() > timeOutAt)
                     return false;
@@ -186,7 +186,7 @@ public class RedisLock implements Lock{
      * @param unit
      * @return
      */
-    private long calcSeconds (long time, TimeUnit unit){
+    private long calcSeconds(long time, TimeUnit unit){
         if (unit == TimeUnit.DAYS)
             return time * 24 * 60 * 60 * 1000;
         else if (unit == TimeUnit.HOURS)

@@ -132,16 +132,16 @@ public class ZookeeperLock implements Lock {
 
     @Override
     public void unlock() {
-        try {
+//        try {
             log.info("unlock {}",myZnode);
-            this.zk.delete(myZnode,-1);
+//            this.zk.delete(myZnode,-1);
             myZnode = null;
             this.zk.close();
-        } catch (KeeperException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        } catch (KeeperException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
