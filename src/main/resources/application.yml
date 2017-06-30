@@ -36,7 +36,7 @@ spring:
       max-wait: -1
 zookeeper:
   address: localhost:2181
-  session-timeout: 500
+  session-timeout: 100
   connection-timeout: 15*1000
 # mybatis配置
 mybatis:
