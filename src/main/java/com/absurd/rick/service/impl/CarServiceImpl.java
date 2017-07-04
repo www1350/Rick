@@ -17,6 +17,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 
 /**
  * @author Absurd.
@@ -52,20 +54,27 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public boolean priceUpdate(String id, Double increPrice) {
+
+        /***
+         * 悲观锁
+         *  Car car = carMapper.get(id);
+         *  int flag = carMapper.updatePriceWithVersion(increPrice,id,car.getVersion(),car.getVersion()+1);
+         *  if (flag == 0) return false;
+         */
+
         log.info("{} up {}",id,increPrice);
 //        RedisLock lock = new RedisLock(redisTemplate,"priceUpdate");
-//        ZookeeperLock lock = new ZookeeperLock(zooKeeperOperator,"priceUpdate");
-
+        ReentrantLock lock = new ReentrantLock();//单机状态可用，分布式状态失效！
+//      ZookeeperLock lock = new ZookeeperLock(zooKeeperOperator,"priceUpdate");
 //      RedisLockForDeathLock lock = new RedisLockForDeathLock(redisTemplate,"priceUpdate");
-//        lock.lock();
-//        try {
+        lock.lock();
+        try {
             Car car = carMapper.get(id);
-//            carMapper.update(car);
-        int flag = carMapper.updatePriceWithVersion(increPrice,id,car.getVersion(),car.getVersion()+1);
-        if (flag == 0) return false;
-//        }finally {
-//            lock.unlock();
-//        }
+            car.setPrice(car.getPrice()+increPrice);
+            carMapper.update(car);
+        }finally {
+            lock.unlock();
+        }
         return true;
     }
 
