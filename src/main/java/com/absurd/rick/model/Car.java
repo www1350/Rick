@@ -38,4 +38,6 @@ public class Car implements Serializable{
      * 品牌
      */
     protected String brand;
+
+    private int version;
 }

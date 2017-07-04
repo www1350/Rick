@@ -9,6 +9,7 @@ CREATE TABLE `car` (
   `price` double DEFAULT '0',
   `priceGuide` double DEFAULT '0',
   `date_create` datetime DEFAULT NULL,
+   `version` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

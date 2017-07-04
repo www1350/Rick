@@ -2,12 +2,15 @@ package com.absurd.rick;
 
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
+import org.mockito.internal.util.collections.Sets;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by wangwenwei on 17/6/29.
@@ -81,5 +84,22 @@ public class ResolverTest extends BaseTest{
 
         Files.write(Paths.get("/Users/wangwenwei/tables/ff.txt"),lists2);
 
+    }
+
+    @Test
+    public void te2() throws IOException {
+        List<String> lists = Files.readAllLines(Paths.get("/Users/wangwenwei/tables/end_2.txt"));
+        Set set = new HashSet();
+        for(String line:lists){
+            set.add(line);
+        }
+        List<String> lists2 = Files.readAllLines(Paths.get("/Users/wangwenwei/tables/end_1.txt"));
+        List<String> lists3 = new ArrayList<>();
+        for(String line : lists2){
+            if(!set.contains(line)){
+                lists3.add(line);
+            }
+        }
+        Files.write(Paths.get("/Users/wangwenwei/tables/end_3.txt"),lists3);
     }
 }

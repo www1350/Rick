@@ -15,5 +15,8 @@ public interface CarMapper {
 
     void update(Car car);
 
+    int updatePriceWithVersion(@Param("price") double addPrice,@Param("id")String id,
+                                @Param("oldVersion") int oldVersion,@Param("version")int version);
+
     void save(Car car);
 }

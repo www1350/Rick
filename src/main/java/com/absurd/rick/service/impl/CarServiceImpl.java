@@ -54,18 +54,18 @@ public class CarServiceImpl implements CarService {
     public boolean priceUpdate(String id, Double increPrice) {
         log.info("{} up {}",id,increPrice);
 //        RedisLock lock = new RedisLock(redisTemplate,"priceUpdate");
-        ZookeeperLock lock = new ZookeeperLock(zooKeeperOperator,"priceUpdate");
+//        ZookeeperLock lock = new ZookeeperLock(zooKeeperOperator,"priceUpdate");
 
 //      RedisLockForDeathLock lock = new RedisLockForDeathLock(redisTemplate,"priceUpdate");
-        lock.lock();
-        try {
+//        lock.lock();
+//        try {
             Car car = carMapper.get(id);
-            Double price = car.getPrice() + increPrice;
-            car.setPrice(price);
-            carMapper.update(car);
-        }finally {
-            lock.unlock();
-        }
+//            carMapper.update(car);
+        int flag = carMapper.updatePriceWithVersion(increPrice,id,car.getVersion(),car.getVersion()+1);
+        if (flag == 0) return false;
+//        }finally {
+//            lock.unlock();
+//        }
         return true;
     }
 

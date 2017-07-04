@@ -10,8 +10,17 @@
         shopCode = #{shopCode},
         brand = #{brand},
         price = #{price},
-        priceGuide = #{priceGuide}
+        priceGuide = #{priceGuide},
+        version = #{version}
         where id = #{id}
+    </update>
+
+
+    <update id="updatePriceWithVersion">
+        update car set
+        price = price + #{price},
+        version = #{version}
+        where id = #{id} and version = #{oldVersion}
     </update>
 
     <select id="get" parameterType="String" resultType="Car">
