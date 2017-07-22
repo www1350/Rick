@@ -12,6 +12,8 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -22,6 +24,7 @@ import java.util.*;
  */
 @Aspect
 @Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GuavaEventResolver {
     @Autowired
     private EventBus eventBus;

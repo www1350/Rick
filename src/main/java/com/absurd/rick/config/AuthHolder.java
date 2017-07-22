@@ -43,6 +43,7 @@ public class AuthHolder{
         Map<String, Object> map = getThreadMap();
         if (map != null)
             map.clear();
+        threadLocal.remove();
     }
 
 
