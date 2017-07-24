@@ -24,7 +24,7 @@ import java.util.*;
  */
 @Aspect
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(-100)//https://jira.spring.io/browse/SPR-12351
 public class GuavaEventResolver {
     @Autowired
     private EventBus eventBus;
