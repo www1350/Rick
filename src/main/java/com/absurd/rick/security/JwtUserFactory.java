@@ -27,9 +27,12 @@ public final class JwtUserFactory {
     private JwtUserFactory() {
     }
 
-    public static List<GrantedAuthority> mapToGrantedAuthorities(String authorities) {
-        Splitter splitter =  Splitter.on(",").trimResults();
-        return splitter.splitToList(authorities).stream()
+    public static List<GrantedAuthority> mapToGrantedAuthorities(List<String> authorities) {
+//        Splitter splitter =  Splitter.on(",").trimResults();
+//        return splitter.splitToList(authorities).stream()
+//                .map(SimpleGrantedAuthority::new)
+//                .collect(Collectors.toList());
+        return authorities.stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

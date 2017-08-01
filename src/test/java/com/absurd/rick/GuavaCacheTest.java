@@ -2,6 +2,7 @@ package com.absurd.rick;
 
 import com.absurd.rick.cache.CacheService;
 import com.absurd.rick.model.User;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -23,7 +24,7 @@ public class GuavaCacheTest extends SpringMvcTest {
 
     @Test
     public void getAndSet() throws InterruptedException {
-        cacheService.setObject("aaa",new User("www","www","www","www",new Date(),new Date(),"www"),100, TimeUnit.SECONDS);
+        cacheService.setObject("aaa",new User("www","www","www","www",new Date(),new Date(), Lists.newArrayList("www")),100, TimeUnit.SECONDS);
         executors.submit(()->{
             for (int i=0;i<100;i++) {
                 User user = cacheService.getObject("aaa", User.class);

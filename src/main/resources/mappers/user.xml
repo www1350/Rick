@@ -2,11 +2,11 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.absurd.rick.mapper.UserMapper">
-    <select id="get" parameterType="String" resultType="User">
+    <select id="get" parameterType="String" resultMap="User">
         SELECT * FROM `user` WHERE id = #{id}
     </select>
 
-    <select id="getByUserName" parameterType="String" resultType="User">
+    <select id="getByUserName" parameterType="String" resultMap="User">
         SELECT * FROM `user` WHERE username = #{username}
     </select>
 
@@ -26,4 +26,16 @@
         #{roles},
         now())
     </insert>
+
+
+
+    <resultMap type="com.absurd.rick.model.User" id="User">
+        <result property="id" column="id" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="email" column="email" />
+        <result property="lastPasswordResetDate" column="last_password_reset" />
+        <result property="dateCreate" column="date_create" />
+        <result property="roles" column="roles" jdbcType="VARCHAR" javaType="java.util.ArrayList" typeHandler="com.absurd.rick.typehandler.StringListTypeHandler"/>
+    </resultMap>
 </mapper>

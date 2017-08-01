@@ -29,7 +29,7 @@ public class User {
 
     private Date lastPasswordResetDate;
 
-    private Date date_create;
+    private Date dateCreate;
 
-    private String roles;
+    private List<String> roles;
 }
