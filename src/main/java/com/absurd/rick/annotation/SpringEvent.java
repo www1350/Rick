@@ -10,13 +10,10 @@ import java.lang.annotation.Target;
  */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.METHOD,ElementType.TYPE})
-public @interface GuavaEvent {
+public @interface SpringEvent {
     boolean enable() default true;
 
     String value();
-
-
+    
     EventPostEnum advice() default EventPostEnum.AFTER;
-
-    boolean async() default true;
 }

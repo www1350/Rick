@@ -1,10 +1,10 @@
-package com.absurd.rick.event;
+package com.absurd.rick.event.spring;
 
 import com.absurd.rick.annotation.EventPostEnum;
-import com.absurd.rick.annotation.GuavaEvent;
+import com.absurd.rick.annotation.SpringEvent;
+import com.absurd.rick.event.Event;
+import com.absurd.rick.event.EventSyncExtra;
 import com.absurd.rick.util.SpringContextUtil;
-import com.google.common.eventbus.AsyncEventBus;
-import com.google.common.eventbus.EventBus;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,46 +12,49 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.*;
 
 /**
- * Created by wangwenwei on 17/6/23.
+ * Created by wangwenwei on 17/8/2.
  */
+
 @Aspect
 @Component//https://jira.spring.io/browse/SPR-12351
-public class GuavaEventResolver {
-    @Autowired
-    private EventBus eventBus;
-    @Autowired
-    private AsyncEventBus asyncEventBus;
+public class SpringEventResolver {
 
-    @Pointcut("@annotation(com.absurd.rick.annotation.GuavaEvent)")
+
+    @Autowired
+    private ApplicationContext context;
+
+    @Pointcut("@annotation(com.absurd.rick.annotation.SpringEvent)")
     public void execute(){}
 
     @Before(value = "execute()")
     public void handlerEventBefore(JoinPoint joinPoint){
         MethodSignature ms = (MethodSignature) joinPoint.getSignature();
         Method method = ms.getMethod();
-        GuavaEvent guavaEvent = method.getAnnotation(GuavaEvent.class);
-        if (guavaEvent == null) {
+        SpringEvent springEvent = method.getAnnotation(SpringEvent.class);
+        if (springEvent == null) {
             return;
         }
 
-        if (!guavaEvent.enable()) return;
-        if (EventPostEnum.BEFORE.equals(guavaEvent.advice())){
-            postEvent(guavaEvent,joinPoint.getArgs());
+        if (!springEvent.enable()) return;
+        if (EventPostEnum.BEFORE.equals(springEvent.advice())){
+            postEvent(springEvent,joinPoint.getArgs());
         }
 
     }
+
 
     @AfterReturning(value = "execute()")
     public void handlerEventAfter(JoinPoint joinPoint){
         MethodSignature ms = (MethodSignature) joinPoint.getSignature();
         Method method = ms.getMethod();
-        GuavaEvent guavaEvent = method.getAnnotation(GuavaEvent.class);
+        SpringEvent guavaEvent = method.getAnnotation(SpringEvent.class);
         if (guavaEvent == null) {
             return;
         }
@@ -63,7 +66,7 @@ public class GuavaEventResolver {
 
     }
 
-    private void postEvent(GuavaEvent guavaEvent, Object[] args) {
+    private void postEvent(SpringEvent guavaEvent, Object[] args) {
         Event event = new Event();
         event.setOperator(guavaEvent.value());
         List<Object> data = new ArrayList<Object>();
@@ -84,12 +87,7 @@ public class GuavaEventResolver {
             }
         }
         event.setExtraData(extraMap);
-        if (guavaEvent.async()){
-            asyncEventBus.post(event);
-        }else{
-            eventBus.post(event);
-        }
+        context.publishEvent(new SpringAppEvent(this, event));
 
     }
-
 }
