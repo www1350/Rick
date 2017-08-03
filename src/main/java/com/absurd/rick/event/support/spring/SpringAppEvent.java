@@ -1,6 +1,6 @@
-package com.absurd.rick.event.spring;
+package com.absurd.rick.event.support.spring;
 
-import com.absurd.rick.event.Event;
+import com.absurd.rick.event.support.Event;
 import org.springframework.context.ApplicationEvent;
 
 /**

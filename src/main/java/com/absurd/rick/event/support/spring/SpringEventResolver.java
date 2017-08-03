@@ -1,8 +1,8 @@
-package com.absurd.rick.event.spring;
+package com.absurd.rick.event.support.spring;
 
 import com.absurd.rick.annotation.EventPostEnum;
 import com.absurd.rick.annotation.SpringEvent;
-import com.absurd.rick.event.Event;
+import com.absurd.rick.event.support.Event;
 import com.absurd.rick.event.EventSyncExtra;
 import com.absurd.rick.util.SpringContextUtil;
 import org.aspectj.lang.JoinPoint;

@@ -1,7 +1,7 @@
 package com.absurd.rick;
 
-import com.absurd.rick.event.Event;
-import com.absurd.rick.event.spring.SpringAppEvent;
+import com.absurd.rick.event.support.Event;
+import com.absurd.rick.event.support.spring.SpringAppEvent;
 import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

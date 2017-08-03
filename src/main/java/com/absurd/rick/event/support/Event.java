@@ -1,4 +1,4 @@
-package com.absurd.rick.event;
+package com.absurd.rick.event.support;
 
 import lombok.Data;
 

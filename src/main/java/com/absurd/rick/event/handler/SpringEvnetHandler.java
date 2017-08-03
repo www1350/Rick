@@ -1,8 +1,9 @@
-package com.absurd.rick.event.spring;
+package com.absurd.rick.event.handler;
 
 import com.absurd.rick.config.AuthHolder;
-import com.absurd.rick.event.Event;
+import com.absurd.rick.event.support.Event;
 import com.absurd.rick.event.EventSyncExtra;
+import com.absurd.rick.event.support.spring.SpringAppEvent;
 import com.absurd.rick.util.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEvent;

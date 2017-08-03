@@ -1,4 +1,4 @@
-package com.absurd.rick.event.impl;
+package com.absurd.rick.event.sync;
 
 import com.absurd.rick.config.AuthHolder;
 import com.absurd.rick.event.EventSyncExtra;

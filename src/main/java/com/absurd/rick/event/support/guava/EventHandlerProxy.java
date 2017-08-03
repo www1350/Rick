@@ -1,6 +1,5 @@
-package com.absurd.rick.event.impl;
-
-import com.absurd.rick.event.Event;
+package com.absurd.rick.event.support.guava;
+import com.absurd.rick.event.support.Event;
 import com.absurd.rick.event.EventSyncExtra;
 import com.absurd.rick.event.Handler;
 import com.absurd.rick.util.SpringContextUtil;
@@ -12,7 +11,7 @@ import java.util.Map;
 /**
  * Created by wangwenwei on 17/8/3.
  */
-public class EventHandlerProxy implements Handler{
+public class EventHandlerProxy implements Handler {
 
     private Handler handler;
 

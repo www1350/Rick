@@ -2,7 +2,7 @@ package com.absurd.rick.config;
 
 import com.absurd.rick.annotation.EventSubscribe;
 import com.absurd.rick.event.Handler;
-import com.absurd.rick.event.impl.EventHandlerProxy;
+import com.absurd.rick.event.support.guava.EventHandlerProxy;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import org.springframework.beans.BeansException;
