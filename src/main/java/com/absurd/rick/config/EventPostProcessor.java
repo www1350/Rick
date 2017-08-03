@@ -1,5 +1,7 @@
 package com.absurd.rick.config;
 
+import com.absurd.rick.event.Handler;
+import com.absurd.rick.event.impl.EventHandlerProxy;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -31,8 +33,9 @@ public class EventPostProcessor implements BeanPostProcessor{
         for (Method method : methods){
             Subscribe subscribe =  method.getAnnotation(Subscribe.class);
             if (subscribe == null) continue;
-            eventBus.register(bean);
-            asyncEventBus.register(bean);
+            EventHandlerProxy eventHandlerProxy = new EventHandlerProxy((Handler) bean);
+            eventBus.register(eventHandlerProxy);
+            asyncEventBus.register(eventHandlerProxy);
         }
 
 

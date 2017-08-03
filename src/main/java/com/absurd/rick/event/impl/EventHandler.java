@@ -18,7 +18,7 @@ public class EventHandler implements Handler {
     @Subscribe
     @Override
     public void handler(Event event) {
-        initExtra(event);
+//        initExtra(event);
         List<Object> args = event.getData();
         String operator = event.getOperator();
         switch (operator){
