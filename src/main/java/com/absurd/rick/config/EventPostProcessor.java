@@ -1,10 +1,10 @@
 package com.absurd.rick.config;
 
+import com.absurd.rick.annotation.EventSubscribe;
 import com.absurd.rick.event.Handler;
 import com.absurd.rick.event.impl.EventHandlerProxy;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -31,7 +31,7 @@ public class EventPostProcessor implements BeanPostProcessor{
             return bean;
         }
         for (Method method : methods){
-            Subscribe subscribe =  method.getAnnotation(Subscribe.class);
+            EventSubscribe subscribe =  method.getAnnotation(EventSubscribe.class);
             if (subscribe == null) continue;
             EventHandlerProxy eventHandlerProxy = new EventHandlerProxy((Handler) bean);
             eventBus.register(eventHandlerProxy);

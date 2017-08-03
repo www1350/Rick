@@ -1,12 +1,11 @@
 package com.absurd.rick.event.impl;
 
+import com.absurd.rick.annotation.EventSubscribe;
 import com.absurd.rick.config.AuthHolder;
 import com.absurd.rick.event.Event;
 import com.absurd.rick.event.Handler;
-import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 /**
@@ -15,7 +14,7 @@ import java.util.List;
 @Slf4j
 @Component
 public class EventHandler implements Handler {
-    @Subscribe
+    @EventSubscribe
     @Override
     public void handler(Event event) {
 //        initExtra(event);
