@@ -3,6 +3,7 @@ package com.absurd.rick.config;
 import com.absurd.rick.annotation.EventSubscribe;
 import com.absurd.rick.event.Handler;
 import com.absurd.rick.event.support.guava.EventHandlerProxy;
+import com.absurd.rick.event.support.guava.ThreadSafeEventHandlerProxy;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import org.springframework.beans.BeansException;
@@ -33,7 +34,13 @@ public class EventPostProcessor implements BeanPostProcessor{
         for (Method method : methods){
             EventSubscribe subscribe =  method.getAnnotation(EventSubscribe.class);
             if (subscribe == null) continue;
-            EventHandlerProxy eventHandlerProxy = new EventHandlerProxy((Handler) bean);
+            Handler eventHandlerProxy = null;
+            if (subscribe.threadSafe()){
+                eventHandlerProxy = new ThreadSafeEventHandlerProxy((Handler) bean);
+            }else{
+                eventHandlerProxy = new EventHandlerProxy((Handler) bean);
+            }
+
             eventBus.register(eventHandlerProxy);
             asyncEventBus.register(eventHandlerProxy);
         }

@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @Component
 public class EventHandler implements Handler {
-    @EventSubscribe
+    @EventSubscribe(threadSafe = true)
     @Override
     public void handler(Event event) {
         List<Object> args = event.getData();
@@ -30,6 +30,5 @@ public class EventHandler implements Handler {
             default:
                 break;
         }
-
     }
 }
