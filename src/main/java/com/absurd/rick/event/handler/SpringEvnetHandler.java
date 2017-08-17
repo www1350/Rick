@@ -50,7 +50,7 @@ public class SpringEvnetHandler implements ApplicationListener {
 
      void initExtra(Event event){
         Map<String,Object> map =  event.getExtraData();
-        Collection<Object> eventSyncs = SpringContextUtil.getBeanByType(EventSyncExtra.class);
+        Collection<Object> eventSyncs = SpringContextUtil.getBeanByTypeWithCache(EventSyncExtra.class);
         for(Object eventSync : eventSyncs){
             if (eventSync instanceof EventSyncExtra){
                 EventSyncExtra eventSyncExtra =  (EventSyncExtra) eventSync;

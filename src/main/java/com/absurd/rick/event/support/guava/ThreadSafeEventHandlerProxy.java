@@ -24,14 +24,18 @@ public class ThreadSafeEventHandlerProxy implements Handler {
     @AllowConcurrentEvents
     @Override
     public void handler(Event event) {
+        resolverExtra(event);
+        handler.handler(event);
+    }
+
+    private void resolverExtra(Event event) {
         Map<String,Object> map =  event.getExtraData();
-        Collection<Object> eventSyncs = SpringContextUtil.getBeanByType(EventSyncExtra.class);
+        Collection<Object> eventSyncs = SpringContextUtil.getBeanByTypeWithCache(EventSyncExtra.class);
         for(Object eventSync : eventSyncs){
             if (eventSync instanceof EventSyncExtra){
                 EventSyncExtra eventSyncExtra =  (EventSyncExtra) eventSync;
                 eventSyncExtra.setExtra(map.get(eventSync.getClass().getName()));
             }
         }
-        handler.handler(event);
     }
 }

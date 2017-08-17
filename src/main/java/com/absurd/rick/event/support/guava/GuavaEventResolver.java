@@ -79,7 +79,7 @@ public class GuavaEventResolver {
         event.setOperator(guavaEvent.value());
         Map<String, Object> extraMap = new HashMap<>();
 
-        Collection<Object> eventSyncs = SpringContextUtil.getBeanByType(EventSyncExtra.class);
+        Collection<Object> eventSyncs = SpringContextUtil.getBeanByTypeWithCache(EventSyncExtra.class);
         for(Object eventSync : eventSyncs){
             if (eventSync instanceof EventSyncExtra){
                 extraMap.put(eventSync.getClass().getName(),((EventSyncExtra)eventSync).getExtra());
