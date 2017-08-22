@@ -1,7 +1,9 @@
 package com.absurd.rick.config;
 
 import com.absurd.rick.interceptor.AuthInterceptor;
+import com.absurd.rick.interceptor.RequestLoggerHandler;
 import com.google.common.collect.Lists;
+import org.springframework.boot.web.support.ErrorPageFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -30,6 +32,9 @@ public class WebMvcConfiguration  extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthInterceptor())
                 .addPathPatterns("/**").excludePathPatterns("/**/auth/**","/**/api-docs/**","/**/swagger-resources");
+        registry.addInterceptor(new RequestLoggerHandler())
+                .addPathPatterns("/**").excludePathPatterns("/**/api-docs/**","/**/swagger-resources");
+
     }
 
     @Bean

@@ -48,7 +48,7 @@ mybatis:
   configLocation:
     classpath:mybatis-config.xml
 logging:
-  config: classpath:log/logback-boot.xml
+  config: classpath:logback.xml
 
 jwt:
   header: Authorization

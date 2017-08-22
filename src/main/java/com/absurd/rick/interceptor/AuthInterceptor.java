@@ -22,10 +22,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()){
-         JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
-            Map<String,Object> map = BeanUtilEx.transBean2Map(jwtUser);
-            AuthHolder.set(map);
-            log.info("enter {} {}", AuthHolder.username(),AuthHolder.roles());
+            if (authentication.getPrincipal() instanceof JwtUser) {
+                JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
+                Map<String, Object> map = BeanUtilEx.transBean2Map(jwtUser);
+                AuthHolder.set(map);
+                log.info("enter {} {}", AuthHolder.username(), AuthHolder.roles());
+            }
         }
         return true;
     }

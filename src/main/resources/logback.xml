@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="LOG_DIR" value="logs" />
+    <property name="LOG_DIR" value="${catalina.base}/logs" />
 
     <property name="PATTERN" value="[%d{MM-dd HH:mm:ss.SSS}][%thread] %-5level %logger[%M] - %msg%n"/>
 
@@ -46,11 +46,11 @@
 
 
 
-    <logger name="com.absurd.rick" level="error" additivity="false">
+    <logger name="com.absurd" level="error" additivity="false">
         <appender-ref ref="ERROR" ></appender-ref>
     </logger>
 
-    <logger name="com.absurd.rick" level="info" additivity="false">
+    <logger name="com.absurd" level="info" additivity="false">
         <appender-ref ref="INFO"></appender-ref>
         <appender-ref ref="STDOUT"></appender-ref>
     </logger>
