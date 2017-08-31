@@ -1,5 +1,6 @@
 package com.absurd.rick.interceptor;
 
+import com.absurd.rick.config.AuthHolder;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,8 +40,10 @@ public class RequestLoggerHandler extends HandlerInterceptorAdapter {
         }
         sb.append("ip->").append(json.get("ip")).append(",");
         sb.append("refer->").append(json.get("refer")).append(",");
+        sb.append("operator->").append(AuthHolder.uid()).append(",");
         sb.append("cost->").append(System.currentTimeMillis()-json.getLongValue("startTime")).append("ms");
         log.info(sb.toString());
+        startTime.remove();
 
     }
 }
