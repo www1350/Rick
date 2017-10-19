@@ -7,9 +7,9 @@ import java.util.Map;
  * Created by wangwenwei on 17/6/19.
  */
 public class AuthHolder{
-    private static final ThreadLocal<Map<String,Object>> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<Map<String,Object>> MAP_THREAD_LOCAL = new ThreadLocal<>();
     public static void set(Map<String,Object> map){
-        threadLocal.set(map);
+        MAP_THREAD_LOCAL.set(map);
     }
 
     public static String username(){
@@ -30,20 +30,22 @@ public class AuthHolder{
 
     private static <T> T get(String key) {
         Map<String, Object> map = getThreadMap();
-        if (map != null)
+        if (map != null) {
             return (T) map.get(key);
+        }
         return null;
     }
 
     public static Map<String, Object> getThreadMap() {
-        return threadLocal.get();
+        return MAP_THREAD_LOCAL.get();
     }
 
     public static void clear(){
         Map<String, Object> map = getThreadMap();
-        if (map != null)
+        if (map != null) {
             map.clear();
-        threadLocal.remove();
+        }
+        MAP_THREAD_LOCAL.remove();
     }
 
 

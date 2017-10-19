@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisCacheImpl implements CacheService{
     @Autowired
     private RedisTemplate redisTemplate;
+    @Override
     public <T> List<T> getList(String key, Class<T> clazz) {
         ValueOperations opsForValue = redisTemplate.opsForValue();
         String jsonStr = (String) opsForValue.get(key);
@@ -28,6 +29,7 @@ public class RedisCacheImpl implements CacheService{
     }
 
 
+    @Override
     public <T> T getObject(String key, Class<T> clazz) {
         ValueOperations opsForValue = redisTemplate.opsForValue();
         String jsonStr = (String) opsForValue.get(key);
@@ -36,6 +38,7 @@ public class RedisCacheImpl implements CacheService{
     }
 
 
+    @Override
     public <T> void setObject(String key, T result, int time, TimeUnit seconds) {
         String jsonStr = JSON.toJSONString(result);
         ValueOperations opsForValue = redisTemplate.opsForValue();

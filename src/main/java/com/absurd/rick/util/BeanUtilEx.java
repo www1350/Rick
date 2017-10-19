@@ -29,7 +29,9 @@ import java.util.*;
 public class BeanUtilEx {
 
     public static Map<String,Object> transBean2Map(Object object){
-        if (object == null) return null;
+        if (object == null) {
+            return null;
+        }
         Map<String,Object> map = new HashMap();
         try {
             BeanInfo beanInfo = Introspector.getBeanInfo(object.getClass());
@@ -59,7 +61,9 @@ public class BeanUtilEx {
         Set<String> emptyNames = new HashSet<>();
         for(java.beans.PropertyDescriptor pd : pds) {
             Object srcValue = src.getPropertyValue(pd.getName());
-            if (srcValue == null) emptyNames.add(pd.getName());
+            if (srcValue == null) {
+                emptyNames.add(pd.getName());
+            }
         }
         String[] result = new String[emptyNames.size()];
         return emptyNames.toArray(result);
@@ -110,7 +114,7 @@ public class BeanUtilEx {
 
     private static HashMap<String,String> cacheBeanAlias(Object source) {
         HashMap<String,String> map = Maps.newHashMap();
-        Field fs[] = source.getClass().getDeclaredFields();
+        Field[] fs = source.getClass().getDeclaredFields();
         for(Field f: fs) {
             BeanAlias beanAlias = f.getAnnotation(BeanAlias.class);
             if (beanAlias == null || StringUtils.isEmpty(beanAlias.value())) {
@@ -139,8 +143,12 @@ public class BeanUtilEx {
     }
 
     private static <T> T[] concat(T[] first, T[] second) {
-        if (null == first || first.length == 0) return second;
-        if (null == second || second.length == 0) return first;
+        if (null == first || first.length == 0) {
+            return second;
+        }
+        if (null == second || second.length == 0) {
+            return first;
+        }
         T[] result = Arrays.copyOf(first, first.length + second.length);
         System.arraycopy(second, 0, result, first.length, second.length);
         return result;

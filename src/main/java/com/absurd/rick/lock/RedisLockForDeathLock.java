@@ -45,19 +45,24 @@ public class RedisLockForDeathLock implements Lock{
 
     @Override
     public void lock() {
-        if (redisTemplate == null)
+        if (redisTemplate == null) {
             throw new NullPointerException("jedis is null");
-        if (lockName == null)
+        }
+        if (lockName == null) {
             throw new NullPointerException("key is null");
+        }
         while (true){
-            if (!interruped)
+            if (!interruped) {
                 throw new RuntimeException("获取锁状态被中断");
+            }
             if (setNX()){
                 break;
             } else{
                 long oldExpireTime = getOldExpireTime();
                 if (oldExpireTime < System.currentTimeMillis()){
-                    if (getAndSet()) break;
+                    if (getAndSet()) {
+                        break;
+                    }
                 }else{
                     try {
                         Thread.sleep(sleepTime);
@@ -78,11 +83,14 @@ public class RedisLockForDeathLock implements Lock{
                  long newExpireTime = System.currentTimeMillis() + expireTime;
                  byte[] rtExpireTime= connection.getSet(data, ByteUtils.LongTobyte(newExpireTime));
                  Long rtExpireTimeL = ByteUtils.byteToLong(rtExpireTime);
-                 if (rtExpireTimeL == null) return false;
+                 if (rtExpireTimeL == null) {
+                     return false;
+                 }
                  if (newExpireTime == rtExpireTimeL.longValue() ){
                      return true;
-                 }else
+                 }else {
                      return false;
+                 }
              }
          });
         return flag.booleanValue();
@@ -98,7 +106,9 @@ public class RedisLockForDeathLock implements Lock{
                 return connection.setNX(data, ByteUtils.LongTobyte(currentTime+expireTime));
             }
         });
-        if (flag == null) return false;
+        if (flag == null) {
+            return false;
+        }
         return flag.booleanValue();
     }
 
@@ -112,8 +122,9 @@ public class RedisLockForDeathLock implements Lock{
                 return ByteUtils.byteToLong(value);
             }
         });
-        if (old == null)
+        if (old == null) {
             return 0;
+        }
         return old.longValue();
     }
 
@@ -124,10 +135,12 @@ public class RedisLockForDeathLock implements Lock{
 
     @Override
     public boolean tryLock() {
-        if (redisTemplate == null)
+        if (redisTemplate == null) {
             throw new NullPointerException("jedis is null");
-        if (lockName == null)
+        }
+        if (lockName == null) {
             throw new NullPointerException("key is null");
+        }
         if (setNX()){
             return true;
         } else{
@@ -141,24 +154,30 @@ public class RedisLockForDeathLock implements Lock{
 
     @Override
     public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
-        if (redisTemplate == null)
+        if (redisTemplate == null) {
             throw new NullPointerException("jedis is null");
-        if (lockName == null)
+        }
+        if (lockName == null) {
             throw new NullPointerException("key is null");
+        }
         long now = System.currentTimeMillis();
         long timeOutAt = now + calcSeconds(time, unit);
         while (true){
-            if (!interruped)
+            if (!interruped) {
                 throw new RuntimeException("获取锁状态被中断");
+            }
             if (setNX()){
                 return true;
             } else{
                 // 获取锁超时
-                if (System.currentTimeMillis() > timeOutAt)
+                if (System.currentTimeMillis() > timeOutAt) {
                     return false;
+                }
                 long oldExpireTime = getOldExpireTime();
                 if (oldExpireTime < System.currentTimeMillis()){
-                    if (getAndSet()) return true;
+                    if (getAndSet()) {
+                        return true;
+                    }
                 }else{
                     try {
                         Thread.sleep(sleepTime);
@@ -204,13 +223,14 @@ public class RedisLockForDeathLock implements Lock{
      * @return
      */
     private long calcSeconds(long time, TimeUnit unit){
-        if (unit == TimeUnit.DAYS)
+        if (unit == TimeUnit.DAYS) {
             return time * 24 * 60 * 60 * 1000;
-        else if (unit == TimeUnit.HOURS)
+        } else if (unit == TimeUnit.HOURS) {
             return time * 60 * 60 * 1000;
-        else  if (unit == TimeUnit.MINUTES)
+        } else  if (unit == TimeUnit.MINUTES) {
             return time * 60 * 1000;
-        else
+        } else {
             return time * 1000;
+        }
     }
 }

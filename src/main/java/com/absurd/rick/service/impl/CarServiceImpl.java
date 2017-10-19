@@ -83,7 +83,9 @@ public class CarServiceImpl implements CarService {
     @Cache(time = 30,key = "car-info-get")
     @Override
     public Car get(String id) {
-        if (StringUtils.isEmpty(id)) return null;
+        if (StringUtils.isEmpty(id)) {
+            return null;
+        }
         return carMapper.get(id);
     }
 }

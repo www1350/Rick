@@ -42,7 +42,9 @@ public class SpringEventResolver {
             return;
         }
 
-        if (!springEvent.enable()) return;
+        if (!springEvent.enable()) {
+            return;
+        }
         if (EventPostEnum.BEFORE.equals(springEvent.advice())){
             postEvent(springEvent,joinPoint.getArgs());
         }
@@ -59,7 +61,9 @@ public class SpringEventResolver {
             return;
         }
 
-        if (!guavaEvent.enable()) return;
+        if (!guavaEvent.enable()) {
+            return;
+        }
         if (EventPostEnum.AFTER.equals(guavaEvent.advice())){
             postEvent(guavaEvent,joinPoint.getArgs());
         }
@@ -78,7 +82,7 @@ public class SpringEventResolver {
         }
         event.setData(data);
         event.setOperator(guavaEvent.value());
-        Map<String, Object> extraMap = new HashMap<>();
+        Map<String, Object> extraMap = new HashMap<>(3);
 
         Collection<Object> eventSyncs = SpringContextUtil.getBeanByTypeWithCache(EventSyncExtra.class);
         for(Object eventSync : eventSyncs){

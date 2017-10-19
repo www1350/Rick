@@ -26,6 +26,6 @@ public class EventBusConfig {
 
     @Bean
     public AsyncEventBus asyncEventBus(){
-        return new AsyncEventBus(Global.executors, (exception, context) -> log.error("异步消息队列异常: [subscribeMethod={}, event={} ]",context.getSubscriberMethod(), context.getEvent().toString(),exception));
+        return new AsyncEventBus(Global.EXECUTOR_SERVICE, (exception, context) -> log.error("异步消息队列异常: [subscribeMethod={}, event={} ]",context.getSubscriberMethod(), context.getEvent().toString(),exception));
     }
 }

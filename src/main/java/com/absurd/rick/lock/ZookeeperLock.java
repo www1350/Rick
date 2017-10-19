@@ -157,13 +157,14 @@ public class ZookeeperLock implements Lock {
      * @return
      */
     private long calcSeconds(long time, TimeUnit unit){
-        if (unit == TimeUnit.DAYS)
+        if (unit == TimeUnit.DAYS) {
             return time * 24 * 60 * 60 * 1000;
-        else if (unit == TimeUnit.HOURS)
+        } else if (unit == TimeUnit.HOURS) {
             return time * 60 * 60 * 1000;
-        else  if (unit == TimeUnit.MINUTES)
+        } else  if (unit == TimeUnit.MINUTES) {
             return time * 60 * 1000;
-        else
+        } else {
             return time * 1000;
+        }
     }
 }

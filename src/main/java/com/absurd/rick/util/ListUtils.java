@@ -10,7 +10,9 @@ import java.util.List;
  */
 public class ListUtils {
     public static List<String> splitter(String str, String on){
-        if (StringUtils.isEmpty(str)) return null;
+        if (StringUtils.isEmpty(str)) {
+            return null;
+        }
         return Splitter.on(on).splitToList(str);
     }
 }

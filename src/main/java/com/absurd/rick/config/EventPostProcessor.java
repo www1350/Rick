@@ -33,7 +33,9 @@ public class EventPostProcessor implements BeanPostProcessor{
         }
         for (Method method : methods){
             EventSubscribe subscribe =  method.getAnnotation(EventSubscribe.class);
-            if (subscribe == null) continue;
+            if (subscribe == null) {
+                continue;
+            }
             Handler eventHandlerProxy = null;
             if (subscribe.threadSafe()){
                 eventHandlerProxy = new ThreadSafeEventHandlerProxy((Handler) bean);

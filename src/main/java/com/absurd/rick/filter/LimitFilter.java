@@ -16,7 +16,7 @@ public class LimitFilter implements Filter {
 
     private static final int MAX_COUNT = 20000;
 
-    private final static AtomicInteger filterCount = new AtomicInteger(0);
+    private final static AtomicInteger FILTER_COUNT = new AtomicInteger(0);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -24,16 +24,16 @@ public class LimitFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        log.info("before {}",filterCount);
-        if (filterCount.get() > MAX_COUNT) {
+        log.info("before {}",FILTER_COUNT);
+        if (FILTER_COUNT.get() > MAX_COUNT) {
             //请求个数太多，跳转到排队页面
             servletRequest.getRequestDispatcher("index.html").forward(servletRequest, servletResponse);
         } else {
             //请求个数加1
-            filterCount.incrementAndGet();
+            FILTER_COUNT.incrementAndGet();
             filterChain.doFilter(servletRequest, servletResponse);
             //访问结束，请求个数减1
-            filterCount.decrementAndGet();
+            FILTER_COUNT.decrementAndGet();
         }
     }
 

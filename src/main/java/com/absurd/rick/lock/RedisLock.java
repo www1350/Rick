@@ -52,13 +52,16 @@ public class RedisLock implements Lock{
 
     @Override
     public void lock() {
-        if (redisTemplate == null)
+        if (redisTemplate == null) {
             throw new NullPointerException("jedis is null");
-        if (lockName == null)
+        }
+        if (lockName == null) {
             throw new NullPointerException("key is null");
+        }
         while (true){
-            if (!interruped)
+            if (!interruped) {
                 throw new RuntimeException("获取锁状态被中断");
+            }
             Boolean flag = (Boolean) redisTemplate.execute(new RedisCallback<Boolean>() {
                 @Override
                 public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
@@ -69,7 +72,7 @@ public class RedisLock implements Lock{
             });
             if (flag == null || !flag.booleanValue()){
                 try {
-                    Thread.currentThread().sleep(this.sleepTime);
+                    Thread.sleep(this.sleepTime);
                 }catch (InterruptedException e){
                     e.printStackTrace();
                 }
@@ -89,12 +92,15 @@ public class RedisLock implements Lock{
 
     @Override
     public boolean tryLock() {
-        if (redisTemplate == null)
+        if (redisTemplate == null) {
             throw new NullPointerException("jedis is null");
-        if (lockName == null)
+        }
+        if (lockName == null) {
             throw new NullPointerException("lockName is null");
-        if (!interruped)
-            throw  new RuntimeException("线程被中断");
+        }
+        if (!interruped) {
+            throw new RuntimeException("线程被中断");
+        }
         Boolean flag = (Boolean) redisTemplate.execute(new RedisCallback() {
             @Override
             public Object doInRedis(RedisConnection connection) throws DataAccessException {
@@ -103,9 +109,9 @@ public class RedisLock implements Lock{
                 return connection.setNX(data,data);
             }
         });
-        if (flag == null || !flag)
+        if (flag == null || !flag) {
             return false;
-        else {
+        } else {
             // 设置锁过期时间
             expireTimeOut = System.currentTimeMillis() + expireTime;
             redisTemplate.expire(this.lockName, expireTime,TimeUnit.MILLISECONDS);
@@ -115,17 +121,21 @@ public class RedisLock implements Lock{
 
     @Override
     public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
-        if (redisTemplate == null)
+        if (redisTemplate == null) {
             throw new NullPointerException("jedis is null");
-        if (lockName == null)
+        }
+        if (lockName == null) {
             throw new NullPointerException("lockName is null");
-        if (time == 0)
+        }
+        if (time == 0) {
             return false;
+        }
         long now = System.currentTimeMillis();
         long timeOutAt = now + calcSeconds(time, unit);
         while (true) {
-            if (!interruped)
+            if (!interruped) {
                 throw new InterruptedException("线程被中断");
+            }
             Boolean flag = (Boolean) redisTemplate.execute(new RedisCallback() {
                 @Override
                 public Object doInRedis(RedisConnection connection) throws DataAccessException {
@@ -137,11 +147,12 @@ public class RedisLock implements Lock{
             // 加锁失败
             if (flag == null || !flag) {
                 // 获取锁超时
-                if (System.currentTimeMillis() > timeOutAt)
+                if (System.currentTimeMillis() > timeOutAt) {
                     return false;
+                }
                 try {
                     // 休眠一段时间，继续获取锁
-                    Thread.currentThread().sleep(this.sleepTime);
+                    Thread.sleep(this.sleepTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -160,7 +171,7 @@ public class RedisLock implements Lock{
     public void unlock() {
         try {
             //当前时间小于过期时间,则锁未超时,删除锁定
-            if (expireTimeOut == 0 || System.currentTimeMillis()  < expireTimeOut)
+            if (expireTimeOut == 0 || System.currentTimeMillis()  < expireTimeOut) {
                 redisTemplate.execute(new RedisCallback() {
                     @Override
                     public Object doInRedis(RedisConnection connection) throws DataAccessException {
@@ -169,6 +180,7 @@ public class RedisLock implements Lock{
                         return connection.del(data);
                     }
                 });
+            }
         }catch (Exception e){
 
         }
@@ -187,13 +199,14 @@ public class RedisLock implements Lock{
      * @return
      */
     private long calcSeconds(long time, TimeUnit unit){
-        if (unit == TimeUnit.DAYS)
+        if (unit == TimeUnit.DAYS) {
             return time * 24 * 60 * 60 * 1000;
-        else if (unit == TimeUnit.HOURS)
+        } else if (unit == TimeUnit.HOURS) {
             return time * 60 * 60 * 1000;
-        else  if (unit == TimeUnit.MINUTES)
+        } else  if (unit == TimeUnit.MINUTES) {
             return time * 60 * 1000;
-        else
+        } else {
             return time * 1000;
+        }
     }
 }

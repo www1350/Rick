@@ -30,7 +30,9 @@ public class StringListTypeHandler extends BaseTypeHandler<List> {
     }
 
     private List converList(String reStr) {
-        if (reStr == null) return null;
+        if (reStr == null) {
+            return null;
+        }
         List list = new ArrayList();
         String[] arr = reStr.split(",");
         for (String e:arr) {

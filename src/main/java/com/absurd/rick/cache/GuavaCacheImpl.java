@@ -21,11 +21,11 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component(value = "guavaCache")
 public class GuavaCacheImpl implements CacheService{
-    private final static Map<String,LoadingCache<String,String>> cacheMap = Maps.newConcurrentMap();
+    private final static Map<String,LoadingCache<String,String>> CACHE_MAP = Maps.newConcurrentMap();
 
     @Override
     public <T> List<T> getList(String key, Class<T> clazz) {
-        LoadingCache<String,String> loadingCache = cacheMap.get(key);
+        LoadingCache<String,String> loadingCache = CACHE_MAP.get(key);
         String jsonStr = null;
         if (loadingCache!=null){
             try {
@@ -40,7 +40,7 @@ public class GuavaCacheImpl implements CacheService{
 
     @Override
     public <T> T getObject(String key, Class<T> clazz) {
-        LoadingCache<String,String> loadingCache = cacheMap.get(key);
+        LoadingCache<String,String> loadingCache = CACHE_MAP.get(key);
         String jsonStr = null;
         if (loadingCache!=null){
             try {
@@ -55,7 +55,7 @@ public class GuavaCacheImpl implements CacheService{
     @Override
     public <T> void setObject(String key, T result, int time, TimeUnit seconds) {
         String jsonStr = JSON.toJSONString(result);
-        LoadingCache<String, String> loadingCache = cacheMap.get(key);
+        LoadingCache<String, String> loadingCache = CACHE_MAP.get(key);
         if (loadingCache == null){
             loadingCache = CacheBuilder.newBuilder()
                     .expireAfterAccess(time,seconds)
@@ -65,7 +65,7 @@ public class GuavaCacheImpl implements CacheService{
                             return null;
                         }
                     });
-            cacheMap.put(key,loadingCache);
+            CACHE_MAP.put(key,loadingCache);
         }
         loadingCache.put(key,jsonStr);
 
@@ -73,7 +73,7 @@ public class GuavaCacheImpl implements CacheService{
 
     @Override
     public void touch(String key, int time, TimeUnit seconds) {
-        LoadingCache<String, String> loadingCache = cacheMap.get(key);
+        LoadingCache<String, String> loadingCache = CACHE_MAP.get(key);
         String jsonStr = null;
         if ( loadingCache!=null ){
             try {
@@ -87,7 +87,7 @@ public class GuavaCacheImpl implements CacheService{
                             }
                         });
                 loadingCache.put(key,jsonStr);
-                cacheMap.put(key,loadingCache);
+                CACHE_MAP.put(key,loadingCache);
             } catch (ExecutionException e) {
                 log.error("error get {}",key,e);
             }
@@ -97,10 +97,10 @@ public class GuavaCacheImpl implements CacheService{
 
     @Override
     public void del(String key) {
-        LoadingCache<String, String> loadingCache = cacheMap.get(key);
+        LoadingCache<String, String> loadingCache = CACHE_MAP.get(key);
         if (loadingCache != null){
             loadingCache.invalidate(key);
-            cacheMap.remove(key);
+            CACHE_MAP.remove(key);
         }
     }
 }

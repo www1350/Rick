@@ -43,8 +43,9 @@ public class AbstractZookeeper implements Watcher{
 
     public void close(){
         try {
-            if (zk!=null)
+            if (zk!=null) {
                 zk.close();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

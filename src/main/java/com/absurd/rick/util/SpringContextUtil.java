@@ -18,7 +18,7 @@ import java.util.Collection;
  */
 @Component
 public class SpringContextUtil implements ApplicationContextAware{
-    private static final LoadingCache<Class<?>, ImmutableList<Object>> handlerMethodsCache =
+    private static final LoadingCache<Class<?>, ImmutableList<Object>> LOADING_CACHE =
             CacheBuilder.newBuilder()
                     .weakKeys()
                     .build(new CacheLoader<Class<?>, ImmutableList<Object>>() {
@@ -60,6 +60,6 @@ public class SpringContextUtil implements ApplicationContextAware{
 
 
     public static ImmutableList<Object> getBeanByTypeWithCache(Class<?> type){
-        return handlerMethodsCache.getUnchecked(type);
+        return LOADING_CACHE.getUnchecked(type);
     }
 }

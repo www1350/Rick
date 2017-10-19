@@ -10,7 +10,7 @@ import java.util.List;
 public class AsmTools {
 	
 	
-	private final static LocalVariableTableParameterNameDiscoverer local=new LocalVariableTableParameterNameDiscoverer();
+	private final static LocalVariableTableParameterNameDiscoverer LOCAL_VARIABLE_TABLE_PARAMETER_NAME_DISCOVERER=new LocalVariableTableParameterNameDiscoverer();
 
 	/**
 	 * 获取方法参数名列表
@@ -22,7 +22,7 @@ public class AsmTools {
 			if(m==null){
 				return Collections.emptyList();
 			}
-			String[] params=local.getParameterNames(m);
+			String[] params=LOCAL_VARIABLE_TABLE_PARAMETER_NAME_DISCOVERER.getParameterNames(m);
 			if(params==null){
 				return Collections.emptyList();
 			}

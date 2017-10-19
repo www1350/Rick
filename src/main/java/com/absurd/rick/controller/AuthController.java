@@ -40,8 +40,9 @@ public class AuthController {
 
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request, @RequestParam(required = false) String token) throws AuthenticationException{
-        if (StringUtils.isEmpty(token))
+        if (StringUtils.isEmpty(token)) {
             token = request.getHeader(tokenHeader).substring(tokenHead.length());
+        }
         String refreshedToken = authService.refresh(token);
         if(refreshedToken == null) {
             return ResponseEntity.badRequest().body(null);
