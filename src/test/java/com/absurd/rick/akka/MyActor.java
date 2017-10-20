@@ -11,7 +11,7 @@ import akka.event.LoggingAdapter;
 public class MyActor extends AbstractActor {
     private final LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 
-    static Props props() {
+    public static Props props() {
         return Props.create(MyActor.class, () -> new MyActor());
     }
 
